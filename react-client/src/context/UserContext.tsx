@@ -1,7 +1,7 @@
 import { Dispatch, createContext, useReducer } from 'react';
 const USER_KEY = 'onxAuth';
 
-type User = {
+export type User = {
   id: string;
   token: string;
 };
@@ -22,8 +22,8 @@ type UserContextType = {
 
 type UserContextProviderProps = {
   children: React.ReactNode;
-  reducer: (state: User | null, action: UserAction) => User | null;
-  initialState: User | null;
+  reducer?: (state: User | null, action: UserAction) => User | null;
+  initialState?: User | null;
 };
 
 function getUserFromLocalStorage(): User | null {
@@ -44,7 +44,9 @@ function userReducer(state: User | null, action: UserAction) {
   }
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
 
 export function UserContextProvider({
   children,

@@ -43,6 +43,16 @@ Exploring the different frontend frameworks and libraries to see how they work a
         - [Zustand](https://zustand-demo.pmnd.rs/)
         - [React Context](https://reactjs.org/docs/context.html) :heavy_check_mark:
         - [Jotai](https://jotai.org/)
+- What to use for testing?
+  - want something that supports unit tests and component tests
+  - Options
+    - [Jest](https://jestjs.io/)
+    - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+    - [Cypress](https://www.cypress.io/)
+    - [Enzyme](https://enzymejs.github.io/enzyme/)
+    - [React Hooks Testing Library](https://react-hooks-testing-library.com/)
+    - [Vitest](https://vitest.dev/)
+    - [jsdom](https://github.com/jsdom/jsdom)
 
 ## Vue
 
