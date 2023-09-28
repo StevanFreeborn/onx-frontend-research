@@ -7,13 +7,27 @@ import AnonymousRoute from '../../src/routes/AnonymousRoute';
 describe('AnonymousRoute', () => {
   it('should render without crashing', () => {
     const { getByText } = render(
-      <MemoryRouter>
-        <UserContextProvider>
+      <UserContextProvider>
+        <MemoryRouter>
           <AnonymousRoute />
-        </UserContextProvider>
-      </MemoryRouter>
+        </MemoryRouter>
+      </UserContextProvider>
     );
 
     expect(getByText('Public Layout')).toBeInTheDocument();
+  });
+
+  it('should render without crashing', () => {
+    const { queryByText } = render(
+      <UserContextProvider initialState={{ id: '', token: '' }}>
+        <MemoryRouter>
+          <AnonymousRoute />
+        </MemoryRouter>
+      </UserContextProvider>
+    );
+
+    const element = queryByText('Public Layout');
+
+    expect(element).not.toBeInTheDocument();
   });
 });
