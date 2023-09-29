@@ -6,7 +6,7 @@ export default function AuthFormErrorsContainer({
   errors: string[];
 }) {
   return errors.length > 0 ? (
-    <div className={styles.errorContainer}>
+    <div data-testid="authErrorsContainer" className={styles.errorContainer}>
       {errors.map((error, i) => (
         <p key={i}>{error}</p>
       ))}

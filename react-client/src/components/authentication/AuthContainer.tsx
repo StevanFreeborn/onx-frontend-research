@@ -4,10 +4,10 @@ import styles from './AuthContainer.module.css';
 
 export default function AuthContainer({ children }: { children: ReactNode }) {
   return (
-    <div className={styles.container}>
+    <div data-testid="authContainer" className={styles.container}>
       <div className={styles.innerContainer}>
         <div className={styles.logoContainer}>
-          <img src={logo} alt="TestingDemo" />
+          <img src={logo} alt="company logo" />
         </div>
         {children}
         <div className={styles.copyRightContainer}>
