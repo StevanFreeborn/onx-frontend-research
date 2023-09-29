@@ -2,6 +2,11 @@ namespace Server.API.Controllers;
 
 static class AuthController
 {
+  internal static async Task<IResult> RegisterAsync([AsParameters] RegisterRequest req)
+  {
+    return await Task.FromResult(Results.Ok(req));
+  }
+
   internal static async Task<IResult> LoginAsync([AsParameters] LoginRequest req)
   {
     return await Task.FromResult(Results.Ok(req));
