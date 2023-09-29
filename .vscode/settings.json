@@ -1,4 +1,11 @@
 {
   "dotnet.defaultSolution": "server/Server.sln",
-  "cSpell.words": ["Blazor", "kromlau", "testid"]
+  "cSpell.words": [
+    "Blazor",
+    "kromlau",
+    "Preprocessors",
+    "testid",
+    "Wouter",
+    "Zustand"
+  ]
 }
