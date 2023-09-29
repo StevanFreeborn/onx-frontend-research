@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { PublicLayout } from '../../../src/components/layouts/PublicLayout';
 
 describe('PublicLayout', () => {
-  it('should render', () => {
+  it('should render layout with children', () => {
     const Child = () => <div>Child</div>;
     const { getByTestId, getByText } = render(
       <PublicLayout>
