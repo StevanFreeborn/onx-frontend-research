@@ -19,5 +19,9 @@ export function PublicLayout({ children }: { children: ReactNode }) {
     alignItems: 'center',
   };
 
-  return <main style={styles}>{children}</main>;
+  return (
+    <main data-testid="publicLayout" style={styles}>
+      {children}
+    </main>
+  );
 }
