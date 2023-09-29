@@ -1,4 +1,7 @@
 import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
+import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
+import LoginPage from './pages/public/LoginPage';
+import ResetPasswordPage from './pages/public/ResetPasswordPage';
 import AnonymousRoute from './routes/AnonymousRoute';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
@@ -16,6 +19,7 @@ export const routes: RouteObject[] = [
           },
           {
             path: 'Login',
+            element: <LoginPage />,
           },
         ],
       },
@@ -24,9 +28,11 @@ export const routes: RouteObject[] = [
         children: [
           {
             path: 'ForgotPassword',
+            element: <ForgotPasswordPage />,
           },
           {
             path: 'ResetPassword',
+            element: <ResetPasswordPage />,
           },
         ],
       },
