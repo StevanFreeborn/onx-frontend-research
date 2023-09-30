@@ -6,7 +6,7 @@ interface IUserService
 {
   Task<Result<string>> RegisterUserAsync(User newUser);
   Task<Result<User>> GetUserAsync(string userId);
-  Task<Result<(string AccessToken, string RefreshToken)>> LoginUserAsync(string username, string password);
+  Task<Result<(string AccessToken, RefreshToken RefreshToken)>> LoginUserAsync(string username, string password);
 }
 
 class UserService : IUserService
@@ -49,7 +49,7 @@ class UserService : IUserService
     return Result.Ok(existingUser);
   }
 
-  public async Task<Result<(string AccessToken, string RefreshToken)>> LoginUserAsync(string username, string password)
+  public async Task<Result<(string AccessToken, RefreshToken RefreshToken)>> LoginUserAsync(string username, string password)
   {
     var existingUser = await _userRepository.GetUserByUsernameAsync(username);
 
@@ -77,7 +77,7 @@ class UserService : IUserService
       return Result.Fail(new InvalidLoginError());
     }
 
-    return Result.Ok((accessToken, refreshToken.Token));
+    return Result.Ok((accessToken, refreshToken));
   }
 }
 

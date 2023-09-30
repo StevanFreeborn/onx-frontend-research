@@ -2,6 +2,8 @@ namespace Server.API.Controllers;
 
 static class AuthController
 {
+  private static readonly string RefreshCookieName = "onxRefreshToken";
+
   internal static async Task<IResult> RegisterAsync([AsParameters] RegisterRequest req)
   {
     var validationResult = await req.Validator.ValidateAsync(req.Dto);
@@ -57,7 +59,10 @@ static class AuthController
       );
     }
 
-    // TODO: set refresh token cookie
+    req.Context.Response.SetRefreshTokenCookie(
+      loginResult.Value.RefreshToken.Token,
+      loginResult.Value.RefreshToken.ExpiresAt
+    );
 
     return Results.Ok(new LoginUserResponse(loginResult.Value.AccessToken));
   }
@@ -70,5 +75,20 @@ static class AuthController
   internal static async Task<IResult> RefreshTokenAsync()
   {
     return await Task.FromResult(Results.Ok("refresh"));
+  }
+
+  private static void SetRefreshTokenCookie(this HttpResponse response, string token, DateTime expiresAt)
+  {
+    response.Cookies.Append(
+      RefreshCookieName,
+      token,
+      new CookieOptions
+      {
+        HttpOnly = true,
+        Expires = expiresAt,
+        SameSite = SameSiteMode.None,
+        Secure = true
+      }
+    );
   }
 }

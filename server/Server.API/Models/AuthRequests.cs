@@ -12,6 +12,7 @@ class LoginDtoValidator : AbstractValidator<LoginDto>
 }
 
 record LoginRequest(
+  HttpContext Context,
   [FromBody] LoginDto Dto,
   [FromServices] IValidator<LoginDto> Validator,
   [FromServices] IUserService UserService
