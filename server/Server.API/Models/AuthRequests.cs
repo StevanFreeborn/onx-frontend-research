@@ -55,3 +55,7 @@ record RegisterRequest(
   [FromServices] IValidator<RegisterDto> Validator,
   [FromServices] IUserService UserService
 );
+
+record LogoutRequest(
+  HttpContext Context
+);

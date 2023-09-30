@@ -11,18 +11,16 @@ public static class AuthRoutes
       .WithName("RegisterUser")
       .WithDescription("Register a new user");
 
-
     group
       .MapPost("login", AuthController.LoginAsync)
       .WithName("LoginUser")
       .WithDescription("Login a user");
 
-
     group
       .MapPost("logout", AuthController.LogoutAsync)
+      .RequireAuthorization()
       .WithName("LogoutUser")
       .WithDescription("Logout a user");
-
 
     group
       .MapPost("refresh-token", AuthController.RefreshTokenAsync)

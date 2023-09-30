@@ -67,8 +67,21 @@ static class AuthController
     return Results.Ok(new LoginUserResponse(loginResult.Value.AccessToken));
   }
 
-  internal static async Task<IResult> LogoutAsync()
+  internal static async Task<IResult> LogoutAsync([AsParameters] LogoutRequest req)
   {
+    var refreshToken = req.Context.Request.GetRefreshTokenCookie();
+
+    if (string.IsNullOrWhiteSpace(refreshToken) == false)
+    {
+      // TODO: implement the following
+      // if there is a refresh token
+      // we need to
+      // 1. revoke the refresh token
+      // 3. remove any expired and revoked refresh tokens from the user
+      // var revokeResult = await req.UserService.RevokeRefreshTokenAsync(refreshToken);
+    }
+
+    req.Context.Response.SetRefreshTokenCookie(string.Empty, DateTime.UtcNow.AddDays(-1));
     return await Task.FromResult(Results.Ok("logout"));
   }
 
@@ -90,5 +103,10 @@ static class AuthController
         Secure = true
       }
     );
+  }
+
+  private static string? GetRefreshTokenCookie(this HttpRequest request)
+  {
+    return request.Cookies[RefreshCookieName];
   }
 }
