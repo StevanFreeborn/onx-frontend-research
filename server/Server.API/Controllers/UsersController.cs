@@ -4,7 +4,7 @@ static class UsersController
 {
   internal static async Task<IResult> GetUserAsync([AsParameters] GetUserRequest req)
   {
-    var userResult = await req.UserService.GetUser(req.Id);
+    var userResult = await req.UserService.GetUserAsync(req.Id);
 
     if (
       userResult.IsFailed &&

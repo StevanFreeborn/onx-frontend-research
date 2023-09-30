@@ -12,7 +12,7 @@ static class AuthController
     }
 
     var newUser = req.Dto.ToUser();
-    var registerResult = await req.UserService.RegisterUser(newUser);
+    var registerResult = await req.UserService.RegisterUserAsync(newUser);
 
     if (
       registerResult.IsFailed &&
@@ -35,7 +35,29 @@ static class AuthController
 
   internal static async Task<IResult> LoginAsync([AsParameters] LoginRequest req)
   {
-    return await Task.FromResult(Results.Ok(req));
+    var validationResult = await req.Validator.ValidateAsync(req.Dto);
+
+    if (validationResult.IsValid == false)
+    {
+      return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    var loginResult = await req.UserService.LoginUserAsync(req.Dto.Username, req.Dto.Password);
+
+    if (
+      loginResult.IsFailed &&
+      loginResult.Errors.OfType<InvalidLoginError>().Any()
+    )
+    {
+      var error = loginResult.Errors.OfType<InvalidLoginError>().First();
+      return Results.Problem(
+        title: "Unable to login user",
+        detail: error.Message,
+        statusCode: 404
+      );
+    }
+
+    return Results.Ok(new LoginUserResponse(loginResult.Value));
   }
 
   internal static async Task<IResult> LogoutAsync()

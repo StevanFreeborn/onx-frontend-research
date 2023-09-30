@@ -4,20 +4,23 @@ namespace Server.API.Services;
 
 interface IUserService
 {
-  Task<Result<string>> RegisterUser(User newUser);
-  Task<Result<User>> GetUser(string userId);
+  Task<Result<string>> RegisterUserAsync(User newUser);
+  Task<Result<User>> GetUserAsync(string userId);
+  Task<Result<string>> LoginUserAsync(string username, string password);
 }
 
 class UserService : IUserService
 {
   private readonly IUserRepository _userRepository;
+  private readonly ITokenService _tokenService;
 
-  public UserService(IUserRepository userRepository)
+  public UserService(IUserRepository userRepository, ITokenService tokenService)
   {
     _userRepository = userRepository;
+    _tokenService = tokenService;
   }
 
-  public async Task<Result<string>> RegisterUser(User newUser)
+  public async Task<Result<string>> RegisterUserAsync(User newUser)
   {
     var existingUser = await _userRepository.GetUserByEmailAsync(newUser.Email);
 
@@ -34,7 +37,7 @@ class UserService : IUserService
     return Result.Ok(createdUser.Id);
   }
 
-  public async Task<Result<User>> GetUser(string userId)
+  public async Task<Result<User>> GetUserAsync(string userId)
   {
     var existingUser = await _userRepository.GetUserByIdAsync(userId);
 
@@ -44,6 +47,34 @@ class UserService : IUserService
     }
 
     return Result.Ok(existingUser);
+  }
+
+  public async Task<Result<string>> LoginUserAsync(string username, string password)
+  {
+    var existingUser = await _userRepository.GetUserByUsernameAsync(username);
+
+    if (existingUser is null)
+    {
+      return Result.Fail(new InvalidLoginError());
+    }
+
+    var isPasswordValid = BCrypt.Net.BCrypt.Verify(password, existingUser.Password);
+
+    if (isPasswordValid is false)
+    {
+      return Result.Fail(new InvalidLoginError());
+    }
+
+    var token = _tokenService.GenerateToken(existingUser);
+
+    return Result.Ok(token);
+  }
+}
+
+class InvalidLoginError : Error
+{
+  internal InvalidLoginError() : base("Username/Password combination is not valid")
+  {
   }
 }
 
@@ -56,7 +87,7 @@ class UserAlreadyExistError : Error
 
 class UserNotFoundError : Error
 {
-  internal UserNotFoundError(string id) : base($"User not found with id: {id}")
+  internal UserNotFoundError(string id) : base($"User not found with identifier: {id}")
   {
   }
 }

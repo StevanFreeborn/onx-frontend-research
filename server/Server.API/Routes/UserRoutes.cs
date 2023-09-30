@@ -8,6 +8,7 @@ public static class UserRoutes
 
     group
       .MapGet("{id}", UsersController.GetUserAsync)
+      .RequireAuthorization()
       .WithName("GetUser")
       .WithDescription("Get a user by id");
   }

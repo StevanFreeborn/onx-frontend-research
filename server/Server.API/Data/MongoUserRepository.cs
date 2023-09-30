@@ -29,4 +29,11 @@ class MongoUserRepository : IUserRepository
       .Find(u => u.Id == id)
       .FirstOrDefaultAsync();
   }
+
+  public async Task<User?> GetUserByUsernameAsync(string username)
+  {
+    return await _context.Users
+      .Find(u => u.Username == username)
+      .FirstOrDefaultAsync();
+  }
 }

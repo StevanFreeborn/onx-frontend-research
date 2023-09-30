@@ -11,7 +11,11 @@ class LoginDtoValidator : AbstractValidator<LoginDto>
   }
 }
 
-record LoginRequest([FromBody] LoginDto Dto);
+record LoginRequest(
+  [FromBody] LoginDto Dto,
+  [FromServices] IValidator<LoginDto> Validator,
+  [FromServices] IUserService UserService
+);
 
 record RegisterDto(string Email, string Password)
 {
