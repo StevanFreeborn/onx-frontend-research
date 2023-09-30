@@ -1,7 +1,12 @@
 
 namespace Server.API.Services;
 
-class UserService
+
+interface IUserService
+{
+  Task<Result<string>> RegisterUser(User newUser);
+}
+class UserService : IUserService
 {
   private readonly IUserRepository _userRepository;
 
