@@ -2,6 +2,7 @@
   "dotnet.defaultSolution": "server/Server.sln",
   "cSpell.words": [
     "Blazor",
+    "Bson",
     "kromlau",
     "Preprocessors",
     "testid",

@@ -29,18 +29,24 @@ class RegisterDtoValidator : AbstractValidator<RegisterDto>
 {
   public RegisterDtoValidator()
   {
-    RuleFor(dto => dto.Email).NotEmpty().EmailAddress();
+    RuleFor(dto => dto.Email)
+      .NotEmpty()
+      .EmailAddress()
+      .WithMessage("Email must be a valid email address.");
     // At least one uppercase letter - (?=.*[A-Z])
     // At least one lowercase letter - (?=.*[a-z])
     // At least one number - (?=.*\d)
     // At least one special character - (?=.*\W)
     // Must be at least 8 characters long - {8,}
-    RuleFor(dto => dto.Password).NotEmpty().Matches(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W)[A-Za-z\d\W]{8,}$");
+    RuleFor(dto => dto.Password)
+      .NotEmpty()
+      .Matches(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W)[A-Za-z\d\W]{8,}$")
+      .WithMessage("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.");
   }
 }
 
 record RegisterRequest(
   [FromBody] RegisterDto Dto,
-  [FromServices] RegisterDtoValidator Validator,
-  [FromServices] UserService UserService
+  [FromServices] IValidator<RegisterDto> Validator,
+  [FromServices] IUserService UserService
 );

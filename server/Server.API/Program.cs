@@ -10,5 +10,6 @@ var app = builder.Build();
 app.UseMiddleware<ErrorMiddleware>();
 
 app.MapAuthEndpoints();
+app.MapUsersEndpoints();
 
 app.Run();

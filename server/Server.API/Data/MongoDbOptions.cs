@@ -11,7 +11,7 @@ class MongoDbOptionsSetup : IConfigureOptions<MongoDbOptions>
   private const string SectionName = nameof(MongoDbOptions);
   private readonly IConfiguration _configuration;
 
-  internal MongoDbOptionsSetup(IConfiguration configuration)
+  public MongoDbOptionsSetup(IConfiguration configuration)
   {
     _configuration = configuration;
   }

@@ -27,10 +27,9 @@ static class AuthController
       );
     }
 
-    return Results.CreatedAtRoute(
-      routeName: "GetUserById",
-      routeValues: new { registerResult.Value },
-      value: new { Id = registerResult.Value }
+    return Results.Created(
+      uri: $"/users/{registerResult.Value}",
+      value: new RegisterUserResponse(registerResult.Value)
     );
   }
 
