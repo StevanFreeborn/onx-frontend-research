@@ -6,4 +6,5 @@ interface IUserRepository
   Task<User> CreateUserAsync(User newUser);
   Task<User?> GetUserByIdAsync(string id);
   Task<User?> GetUserByUsernameAsync(string username);
+  Task<User?> UpdateUserAsync(User user);
 }

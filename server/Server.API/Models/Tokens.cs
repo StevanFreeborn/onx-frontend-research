@@ -9,12 +9,11 @@ record BaseToken
 {
   public string Id { get; init; } = string.Empty;
   public string Token { get; init; } = string.Empty;
-  public string UserId { get; init; } = string.Empty;
-  public DateTimeOffset ExpiresAt { get; init; } = DateTimeOffset.UtcNow;
+  public DateTime ExpiresAt { get; init; } = DateTime.UtcNow;
   public bool Revoked { get; init; } = false;
   public TokenType TokenType { get; init; }
-  public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
-  public DateTimeOffset UpdatedAt { get; init; } = DateTimeOffset.UtcNow;
+  public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+  public DateTime UpdatedAt { get; init; } = DateTime.UtcNow;
 }
 
 record RefreshToken : BaseToken

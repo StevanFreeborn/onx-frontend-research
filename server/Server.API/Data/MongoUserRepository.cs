@@ -36,4 +36,17 @@ class MongoUserRepository : IUserRepository
       .Find(u => u.Username == username)
       .FirstOrDefaultAsync();
   }
+
+  public async Task<User?> UpdateUserAsync(User user)
+  {
+    var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
+    var options = new FindOneAndReplaceOptions<User, User>
+    {
+      ReturnDocument = ReturnDocument.After
+    };
+
+    user.UpdatedAt = DateTime.UtcNow;
+
+    return await _context.Users.FindOneAndReplaceAsync(filter, user, options);
+  }
 }

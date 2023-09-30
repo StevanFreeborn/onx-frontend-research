@@ -21,3 +21,7 @@ global using Server.API.Middleware;
 global using Server.API.Models;
 global using Server.API.Routes;
 global using Server.API.Services;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Security.Cryptography;
+global using System.Text.RegularExpressions;

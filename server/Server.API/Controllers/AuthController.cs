@@ -57,7 +57,9 @@ static class AuthController
       );
     }
 
-    return Results.Ok(new LoginUserResponse(loginResult.Value));
+    // TODO: set refresh token cookie
+
+    return Results.Ok(new LoginUserResponse(loginResult.Value.AccessToken));
   }
 
   internal static async Task<IResult> LogoutAsync()

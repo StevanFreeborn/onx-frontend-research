@@ -1,6 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
 namespace Server.API.Services;
 
 class JwtOptions
@@ -31,7 +28,8 @@ class JwtOptionsSetup : IConfigureOptions<JwtOptions>
 
 interface ITokenService
 {
-  string GenerateToken(User user);
+  string GenerateJwtToken(User user);
+  RefreshToken GenerateRefreshToken();
 }
 
 class TokenService : ITokenService
@@ -43,7 +41,7 @@ class TokenService : ITokenService
     _jwtOptions = jwtOptions.Value;
   }
 
-  public string GenerateToken(User user)
+  public string GenerateJwtToken(User user)
   {
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.UTF8.GetBytes(_jwtOptions.Secret);
@@ -73,5 +71,34 @@ class TokenService : ITokenService
     var securityToken = tokenHandler.CreateToken(tokenDescriptor);
     var jwtToken = tokenHandler.WriteToken(securityToken);
     return jwtToken;
+  }
+
+  public RefreshToken GenerateRefreshToken()
+  {
+    var token = new RefreshToken
+    {
+      Id = Guid.NewGuid().ToString(),
+      Token = GenerateToken(),
+      ExpiresAt = DateTime.UtcNow.AddHours(12),
+    };
+
+    return token;
+  }
+
+  private string GenerateToken()
+  {
+    var randomBytes = new byte[32];
+    using var rng = RandomNumberGenerator.Create();
+    rng.GetBytes(randomBytes);
+    var token = Convert.ToBase64String(randomBytes);
+    return RemoveNonAlphaNumericCharacters(token);
+  }
+
+  private string RemoveNonAlphaNumericCharacters(string input)
+  {
+    var pattern = @"[^A-Za-z0-9]";
+    var replacement = string.Empty;
+    var output = Regex.Replace(input, pattern, replacement);
+    return output;
   }
 }

@@ -6,7 +6,7 @@ interface IUserService
 {
   Task<Result<string>> RegisterUserAsync(User newUser);
   Task<Result<User>> GetUserAsync(string userId);
-  Task<Result<string>> LoginUserAsync(string username, string password);
+  Task<Result<(string AccessToken, string RefreshToken)>> LoginUserAsync(string username, string password);
 }
 
 class UserService : IUserService
@@ -49,7 +49,7 @@ class UserService : IUserService
     return Result.Ok(existingUser);
   }
 
-  public async Task<Result<string>> LoginUserAsync(string username, string password)
+  public async Task<Result<(string AccessToken, string RefreshToken)>> LoginUserAsync(string username, string password)
   {
     var existingUser = await _userRepository.GetUserByUsernameAsync(username);
 
@@ -65,9 +65,19 @@ class UserService : IUserService
       return Result.Fail(new InvalidLoginError());
     }
 
-    var token = _tokenService.GenerateToken(existingUser);
+    var accessToken = _tokenService.GenerateJwtToken(existingUser);
+    var refreshToken = _tokenService.GenerateRefreshToken();
 
-    return Result.Ok(token);
+    existingUser.RefreshTokens.Add(refreshToken);
+
+    var updatedUser = await _userRepository.UpdateUserAsync(existingUser);
+
+    if (updatedUser is null)
+    {
+      return Result.Fail(new InvalidLoginError());
+    }
+
+    return Result.Ok((accessToken, refreshToken.Token));
   }
 }
 
