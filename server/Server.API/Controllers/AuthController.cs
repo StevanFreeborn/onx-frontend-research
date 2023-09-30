@@ -4,7 +4,34 @@ static class AuthController
 {
   internal static async Task<IResult> RegisterAsync([AsParameters] RegisterRequest req)
   {
-    return await Task.FromResult(Results.Ok(req));
+    var validationResult = await req.Validator.ValidateAsync(req.Dto);
+
+    if (validationResult.IsValid == false)
+    {
+      return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    var newUser = req.Dto.ToUser();
+    var registerResult = await req.UserService.RegisterUser(newUser);
+
+    if (
+      registerResult.IsFailed &&
+      registerResult.Errors.OfType<UserAlreadyExistError>().Any()
+    )
+    {
+      var error = registerResult.Errors.OfType<UserAlreadyExistError>().First();
+      return Results.Problem(
+        title: "Unable to register user",
+        detail: error.Message,
+        statusCode: 400
+      );
+    }
+
+    return Results.CreatedAtRoute(
+      routeName: "GetUserById",
+      routeValues: new { registerResult.Value },
+      value: new { Id = registerResult.Value }
+    );
   }
 
   internal static async Task<IResult> LoginAsync([AsParameters] LoginRequest req)

@@ -1,3 +1,4 @@
+
 namespace Server.API.Data;
 
 class MongoUserRepository : IUserRepository
@@ -7,5 +8,12 @@ class MongoUserRepository : IUserRepository
   internal MongoUserRepository(MongoDbContext context)
   {
     _context = context;
+  }
+
+  public async Task<User?> GetUserByEmailAsync(string email)
+  {
+    return await _context.Users
+      .Find(u => u.Email == email)
+      .FirstOrDefaultAsync();
   }
 }

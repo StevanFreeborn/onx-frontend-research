@@ -13,7 +13,17 @@ class LoginDtoValidator : AbstractValidator<LoginDto>
 
 record LoginRequest([FromBody] LoginDto Dto);
 
-record RegisterDto(string Email, string Password);
+record RegisterDto(string Email, string Password)
+{
+  internal User ToUser()
+  {
+    return new User
+    {
+      Email = Email,
+      Password = Password
+    };
+  }
+}
 
 class RegisterDtoValidator : AbstractValidator<RegisterDto>
 {
@@ -29,4 +39,8 @@ class RegisterDtoValidator : AbstractValidator<RegisterDto>
   }
 }
 
-record RegisterRequest([FromBody] RegisterDto Dto);
+record RegisterRequest(
+  [FromBody] RegisterDto Dto,
+  [FromServices] RegisterDtoValidator Validator,
+  [FromServices] UserService UserService
+);
