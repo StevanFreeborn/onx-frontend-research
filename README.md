@@ -46,13 +46,13 @@ Exploring the different frontend frameworks and libraries to see how they work a
 - What to use for testing?
   - want something that supports unit tests and component tests
   - Options
-    - [Jest](https://jestjs.io/)
-    - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+    - [Jest](https://jestjs.io/) :heavy_check_mark:
+    - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) :heavy_check_mark:
     - [Cypress](https://www.cypress.io/)
     - [Enzyme](https://enzymejs.github.io/enzyme/)
     - [React Hooks Testing Library](https://react-hooks-testing-library.com/)
-    - [Vitest](https://vitest.dev/)
-    - [jsdom](https://github.com/jsdom/jsdom)
+    - [Vitest](https://vitest.dev/) :heavy_check_mark:
+    - [jsdom](https://github.com/jsdom/jsdom) :heavy_check_mark:
 
 ## Vue
 
