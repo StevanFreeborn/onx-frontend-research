@@ -7,6 +7,8 @@ interface IUserService
   Task<Result<string>> RegisterUserAsync(User newUser);
   Task<Result<User>> GetUserAsync(string userId);
   Task<Result<(string AccessToken, RefreshToken RefreshToken)>> LoginUserAsync(string username, string password);
+  Task RevokeRefreshTokenAsync(string userId, string token);
+  Task RemoveAllInvalidRefreshTokensAsync(string userId);
 }
 
 class UserService : IUserService
@@ -78,6 +80,48 @@ class UserService : IUserService
     }
 
     return Result.Ok((accessToken, refreshToken));
+  }
+
+  public async Task RevokeRefreshTokenAsync(string userId, string token)
+  {
+    var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+    if (existingUser is null)
+    {
+      return;
+    }
+
+    var refreshToken = existingUser.RefreshTokens.SingleOrDefault(x => x.Token == token);
+
+    if (refreshToken is null)
+    {
+      return;
+    }
+
+    var updatedRefreshToken = refreshToken with { Revoked = true, UpdatedAt = DateTime.UtcNow };
+
+    existingUser.RefreshTokens.Remove(refreshToken);
+    existingUser.RefreshTokens.Add(updatedRefreshToken);
+
+    await _userRepository.UpdateUserAsync(existingUser);
+  }
+
+  public async Task RemoveAllInvalidRefreshTokensAsync(string userId)
+  {
+    var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+    if (existingUser is null)
+    {
+      return;
+    }
+
+    var invalidRefreshTokens = existingUser.RefreshTokens
+      .Where(x => x.Revoked || x.ExpiresAt < DateTime.UtcNow)
+      .ToList();
+
+    existingUser.RefreshTokens.RemoveAll(invalidRefreshTokens.Contains);
+
+    await _userRepository.UpdateUserAsync(existingUser);
   }
 }
 

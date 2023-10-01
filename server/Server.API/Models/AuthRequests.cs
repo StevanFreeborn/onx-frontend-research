@@ -57,5 +57,6 @@ record RegisterRequest(
 );
 
 record LogoutRequest(
-  HttpContext Context
+  HttpContext Context,
+  [FromServices] IUserService UserService
 );

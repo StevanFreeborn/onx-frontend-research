@@ -2,8 +2,6 @@ namespace Server.API.Controllers;
 
 static class AuthController
 {
-  private static readonly string RefreshCookieName = "onxRefreshToken";
-
   internal static async Task<IResult> RegisterAsync([AsParameters] RegisterRequest req)
   {
     var validationResult = await req.Validator.ValidateAsync(req.Dto);
@@ -69,44 +67,31 @@ static class AuthController
 
   internal static async Task<IResult> LogoutAsync([AsParameters] LogoutRequest req)
   {
+    var userId = req.Context.GetUserId();
+
+    if (userId is null)
+    {
+      return Results.Problem(
+        title: "Unable to logout user",
+        detail: "User is not logged in",
+        statusCode: 400
+      );
+    }
+
     var refreshToken = req.Context.Request.GetRefreshTokenCookie();
 
     if (string.IsNullOrWhiteSpace(refreshToken) == false)
     {
-      // TODO: implement the following
-      // if there is a refresh token
-      // we need to
-      // 1. revoke the refresh token
-      // 3. remove any expired and revoked refresh tokens from the user
-      // var revokeResult = await req.UserService.RevokeRefreshTokenAsync(refreshToken);
+      await req.UserService.RevokeRefreshTokenAsync(userId, refreshToken);
+      await req.UserService.RemoveAllInvalidRefreshTokensAsync(userId);
     }
 
     req.Context.Response.SetRefreshTokenCookie(string.Empty, DateTime.UtcNow.AddDays(-1));
-    return await Task.FromResult(Results.Ok("logout"));
+    return Results.Ok();
   }
 
   internal static async Task<IResult> RefreshTokenAsync()
   {
     return await Task.FromResult(Results.Ok("refresh"));
-  }
-
-  private static void SetRefreshTokenCookie(this HttpResponse response, string token, DateTime expiresAt)
-  {
-    response.Cookies.Append(
-      RefreshCookieName,
-      token,
-      new CookieOptions
-      {
-        HttpOnly = true,
-        Expires = expiresAt,
-        SameSite = SameSiteMode.None,
-        Secure = true
-      }
-    );
-  }
-
-  private static string? GetRefreshTokenCookie(this HttpRequest request)
-  {
-    return request.Cookies[RefreshCookieName];
   }
 }
