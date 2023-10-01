@@ -1,23 +1,54 @@
 namespace Server.API.Services;
 
+/// <summary>
+/// Represents options used to configure JWT authentication
+/// </summary>
 class JwtOptions
 {
+  /// <summary>
+  /// The secret used to sign the JWT
+  /// </summary>
   public string Secret { get; init; } = string.Empty;
+
+  /// <summary>
+  /// The issuer of the JWT
+  /// </summary>
   public string Issuer { get; init; } = string.Empty;
+
+  /// <summary>
+  /// The audience of the JWT
+  /// </summary>
   public string Audience { get; init; } = string.Empty;
+
+  /// <summary>
+  /// The expiry of the JWT in minutes
+  /// </summary>
   public int ExpiryInMinutes { get; init; }
 }
 
+/// <summary>
+/// Configures <see cref="JwtOptions"/>
+/// </summary>
 class JwtOptionsSetup : IConfigureOptions<JwtOptions>
 {
   private const string SectionName = nameof(JwtOptions);
   private readonly IConfiguration _configuration;
 
+  /// <summary>
+  /// Creates a new <see cref="JwtOptionsSetup"/> instance
+  /// </summary>
+  /// <param name="configuration">A <see cref="IConfiguration"/> instance</param>
+  /// <returns>A <see cref="JwtOptionsSetup"/> instance</returns>
   public JwtOptionsSetup(IConfiguration configuration)
   {
     _configuration = configuration;
   }
 
+  /// <summary>
+  /// Configures <see cref="JwtOptions"/>
+  /// </summary>
+  /// <param name="options">A <see cref="JwtOptions"/> instance</param>
+  /// <returns>A <see cref="JwtOptions"/> instance</returns>
   public void Configure(JwtOptions options)
   {
     _configuration
@@ -26,16 +57,38 @@ class JwtOptionsSetup : IConfigureOptions<JwtOptions>
   }
 }
 
+/// <summary>
+/// Represents a service for handling authentication tokens
+/// </summary>
 interface ITokenService
 {
+  /// <summary>
+  /// Generates a JWT token
+  /// </summary>
+  /// <param name="user">A <see cref="User"/> instance</param>
+  /// <returns>A JWT token</returns>
   string GenerateJwtToken(User user);
+
+  /// <summary>
+  /// Generates a refresh token
+  /// </summary>
+  /// <returns>A <see cref="RefreshToken"/> instance</returns>
   RefreshToken GenerateRefreshToken();
 }
 
+/// <summary>
+/// Represents a service for handling authentication tokens
+/// </summary>
+/// <inheritdoc/>
 class TokenService : ITokenService
 {
   private readonly JwtOptions _jwtOptions;
 
+  /// <summary>
+  /// Creates a new <see cref="TokenService"/> instance
+  /// </summary>
+  /// <param name="jwtOptions">A <see cref="IOptions{JwtOptions}"/> instance</param>
+  /// <returns>A <see cref="TokenService"/> instance</returns>
   public TokenService(IOptions<JwtOptions> jwtOptions)
   {
     _jwtOptions = jwtOptions.Value;

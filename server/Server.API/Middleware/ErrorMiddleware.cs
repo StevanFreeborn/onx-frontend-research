@@ -1,14 +1,27 @@
 namespace Server.API.Middleware;
 
+/// <summary>
+/// Middleware for handling errors
+/// </summary>
 class ErrorMiddleware
 {
   private readonly RequestDelegate _next;
 
+  /// <summary>
+  /// Creates a new <see cref="ErrorMiddleware"/> instance
+  /// </summary>
+  /// <param name="next">The next middleware in the pipeline</param>
+  /// <returns>A <see cref="ErrorMiddleware"/> instance</returns>
   public ErrorMiddleware(RequestDelegate next)
   {
     _next = next;
   }
 
+  /// <summary>
+  /// Invokes the middleware
+  /// </summary>
+  /// <param name="context">The <see cref="HttpContext"/> instance</param>
+  /// <returns>A <see cref="Task"/></returns>
   public async Task InvokeAsync(HttpContext context)
   {
     try

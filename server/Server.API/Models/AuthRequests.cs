@@ -1,10 +1,13 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
 namespace Server.API.Models;
 
+/// <summary>
+/// Represents the data needed to login
+/// </summary>
 record LoginDto(string Username, string Password);
 
+/// <summary>
+/// Validator for <see cref="LoginDto"/>
+/// </summary>
 class LoginDtoValidator : AbstractValidator<LoginDto>
 {
   public LoginDtoValidator()
@@ -14,6 +17,9 @@ class LoginDtoValidator : AbstractValidator<LoginDto>
   }
 }
 
+/// <summary>
+/// Represents a login request
+/// </summary>
 record LoginRequest(
   HttpContext Context,
   [FromBody] LoginDto Dto,
@@ -21,6 +27,9 @@ record LoginRequest(
   [FromServices] IUserService UserService
 );
 
+/// <summary>
+/// Represents the data needed to register
+/// </summary>
 record RegisterDto(string Email, string Password)
 {
   internal User ToUser()
@@ -33,6 +42,9 @@ record RegisterDto(string Email, string Password)
   }
 }
 
+/// <summary>
+/// Validator for <see cref="RegisterDto"/>
+/// </summary>
 class RegisterDtoValidator : AbstractValidator<RegisterDto>
 {
   public RegisterDtoValidator()
@@ -53,19 +65,31 @@ class RegisterDtoValidator : AbstractValidator<RegisterDto>
   }
 }
 
+/// <summary>
+/// Represents a register request
+/// </summary>
 record RegisterRequest(
   [FromBody] RegisterDto Dto,
   [FromServices] IValidator<RegisterDto> Validator,
   [FromServices] IUserService UserService
 );
 
+/// <summary>
+/// Represents logout request
+/// </summary>
 record LogoutRequest(
   HttpContext Context,
   [FromServices] IUserService UserService
 );
 
+/// <summary>
+/// Represents the data needed to refresh a token
+/// </summary>
 record RefreshTokenDto(string UserId);
 
+/// <summary>
+/// Validator for <see cref="RefreshTokenDto"/>
+/// </summary>
 class RefreshTokenDtoValidator : AbstractValidator<RefreshTokenDto>
 {
   public RefreshTokenDtoValidator()
@@ -74,6 +98,9 @@ class RefreshTokenDtoValidator : AbstractValidator<RefreshTokenDto>
   }
 }
 
+/// <summary>
+/// Represents a refresh token request
+/// </summary>
 record RefreshTokenRequest(
   HttpContext Context,
   [FromBody] RefreshTokenDto Dto,

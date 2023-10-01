@@ -1,7 +1,18 @@
 namespace Server.API.Controllers;
 
+/// <summary>
+/// Controller for handling authentication requests
+/// </summary>
 static class AuthController
 {
+  /// <summary>
+  /// Registers a new user
+  /// </summary>
+  /// <param name="req">A <see cref="RegisterRequest"/> instance</param>
+  /// <returns>
+  /// If the user was registered successfully, a <see cref="RegisterUserResponse"/> instance is returned with a 201 status code.
+  /// If the user already exists, a <see cref="ProblemDetails"/> instance is returned with a 400 status code. 
+  /// </returns>
   internal static async Task<IResult> RegisterAsync([AsParameters] RegisterRequest req)
   {
     var validationResult = await req.Validator.ValidateAsync(req.Dto);
@@ -33,6 +44,15 @@ static class AuthController
     );
   }
 
+  /// <summary>
+  /// Logs in a user
+  /// </summary>
+  /// <param name="req">A <see cref="LoginRequest"/> instance</param>
+  /// <returns>
+  /// If the user was logged in successfully, a <see cref="LoginUserResponse"/> instance is returned with a 200 status code.
+  /// If the request is invalid, a <see cref="ValidationProblemDetails"/> instance is returned with a 400 status code.
+  /// If the login attempt fails, a <see cref="ProblemDetails"/> instance is returned with a 400 status code.
+  /// </returns>
   internal static async Task<IResult> LoginAsync([AsParameters] LoginRequest req)
   {
     var validationResult = await req.Validator.ValidateAsync(req.Dto);
@@ -53,7 +73,7 @@ static class AuthController
       return Results.Problem(
         title: "Unable to login user",
         detail: error.Message,
-        statusCode: 404
+        statusCode: 400
       );
     }
 
@@ -65,6 +85,14 @@ static class AuthController
     return Results.Ok(new LoginUserResponse(loginResult.Value.AccessToken));
   }
 
+  /// <summary>
+  /// Logs out a user
+  /// </summary>
+  /// <param name="req">A <see cref="LogoutRequest"/> instance</param>
+  /// <returns>
+  /// If the user was logged out successfully, a 200 status code is returned.
+  /// If the user is not logged in, a <see cref="ProblemDetails"/> instance is returned with a 400 status code.
+  /// </returns>
   internal static async Task<IResult> LogoutAsync([AsParameters] LogoutRequest req)
   {
     var userId = req.Context.GetUserId();
@@ -90,6 +118,16 @@ static class AuthController
     return Results.Ok();
   }
 
+  /// <summary>
+  /// Refreshes a user's access token
+  /// </summary>
+  /// <param name="req">A <see cref="RefreshTokenRequest"/> instance</param>
+  /// <returns>
+  /// If the user's access token was refreshed successfully, a <see cref="LoginUserResponse"/> instance is returned with a 200 status code.
+  /// If the request is invalid, a <see cref="ValidationProblemDetails"/> instance is returned with a 400 status code.
+  /// If the refresh token is invalid, a <see cref="ProblemDetails"/> instance is returned with a 400 status code.
+  /// If the token refresh fails, a <see cref="ProblemDetails"/> instance is returned with a 500 status code.
+  /// </returns>
   internal static async Task<IResult> RefreshTokenAsync([AsParameters] RefreshTokenRequest req)
   {
     var refreshToken = req.Context.Request.GetRefreshTokenCookie();

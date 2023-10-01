@@ -1,7 +1,13 @@
 namespace Server.API.Routes;
 
+/// <summary>
+/// Auth routes
+/// </summary>
 public static class AuthRoutes
 {
+  /// <summary>
+  /// Maps auth endpoints
+  /// </summary>
   public static void MapAuthEndpoints(this WebApplication app)
   {
     var group = app.MapGroup("auth");

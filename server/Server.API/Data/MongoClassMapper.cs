@@ -1,7 +1,13 @@
 namespace Server.API.Data;
 
+/// <summary>
+/// Mapper for mapping classes to MongoDB
+/// </summary>
 public static class MongoClassMapper
 {
+  /// <summary>
+  /// Registers class mappings
+  /// </summary>
   public static void RegisterClassMappings()
   {
     BsonClassMap.RegisterClassMap<User>(

@@ -1,10 +1,17 @@
 
 namespace Server.API.Data;
 
+/// <summary>
+///  Repository for handling user data
+/// </summary>
+/// <inheritdoc/>
 class MongoUserRepository : IUserRepository
 {
   private readonly MongoDbContext _context;
 
+  /// <summary>
+  /// Creates a new <see cref="MongoUserRepository"/> instance
+  /// </summary>
   public MongoUserRepository(MongoDbContext context)
   {
     _context = context;
