@@ -1,10 +1,14 @@
 # React Client
 
+## Description
+
+This is an example of an Onx react client.
+
 ## Setup
 
 1. Install dependencies: `npm install`
-2. Run the dev server: `npm run dev`
-3. Open a browser and navigate to address shown in terminal
+1. Run the dev server: `npm run dev`
+1. Open a browser and navigate to address shown in terminal
 
 ## Testing
 
