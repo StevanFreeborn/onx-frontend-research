@@ -50,6 +50,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();
 builder.Services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
+builder.Services.AddTransient<IValidator<RefreshTokenDto>, RefreshTokenDtoValidator>();
 
 
 var app = builder.Build();

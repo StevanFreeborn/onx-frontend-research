@@ -9,6 +9,7 @@ interface IUserService
   Task<Result<(string AccessToken, RefreshToken RefreshToken)>> LoginUserAsync(string username, string password);
   Task RevokeRefreshTokenAsync(string userId, string token);
   Task RemoveAllInvalidRefreshTokensAsync(string userId);
+  Task<Result<(string AccessToken, RefreshToken RefreshToken)>> RefreshTokenAsync(string userId, string token);
 }
 
 class UserService : IUserService
@@ -122,6 +123,56 @@ class UserService : IUserService
     existingUser.RefreshTokens.RemoveAll(invalidRefreshTokens.Contains);
 
     await _userRepository.UpdateUserAsync(existingUser);
+  }
+
+  public async Task<Result<(string AccessToken, RefreshToken RefreshToken)>> RefreshTokenAsync(string userId, string token)
+  {
+    var existingUser = await _userRepository.GetUserByIdAsync(userId);
+
+    if (existingUser is null)
+    {
+      return Result.Fail(new UserNotFoundError(userId));
+    }
+
+    var refreshToken = existingUser.RefreshTokens.SingleOrDefault(x => x.Token == token);
+
+    if (refreshToken is null)
+    {
+      return Result.Fail(new InvalidRefreshToken());
+    }
+
+    if (refreshToken.Revoked || refreshToken.ExpiresAt < DateTime.UtcNow)
+    {
+      return Result.Fail(new InvalidRefreshToken());
+    }
+
+    var newRefreshToken = _tokenService.GenerateRefreshToken();
+    var newAccessToken = _tokenService.GenerateJwtToken(existingUser);
+
+    existingUser.RefreshTokens.Add(newRefreshToken);
+
+    var updatedUser = await _userRepository.UpdateUserAsync(existingUser);
+
+    if (updatedUser is null)
+    {
+      return Result.Fail(new RefreshTokenError());
+    }
+
+    return Result.Ok((newAccessToken, newRefreshToken));
+  }
+}
+
+class RefreshTokenError : Error
+{
+  internal RefreshTokenError() : base("Unable to refresh token")
+  {
+  }
+}
+
+class InvalidRefreshToken : Error
+{
+  internal InvalidRefreshToken() : base("Refresh token is invalid")
+  {
   }
 }
 

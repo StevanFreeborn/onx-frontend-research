@@ -90,8 +90,65 @@ static class AuthController
     return Results.Ok();
   }
 
-  internal static async Task<IResult> RefreshTokenAsync()
+  internal static async Task<IResult> RefreshTokenAsync([AsParameters] RefreshTokenRequest req)
   {
-    return await Task.FromResult(Results.Ok("refresh"));
+    var refreshToken = req.Context.Request.GetRefreshTokenCookie();
+
+    if (string.IsNullOrWhiteSpace(refreshToken))
+    {
+      return Results.Problem(
+        title: "Unable to refresh token",
+        detail: "Refresh token is missing",
+        statusCode: 400
+      );
+    }
+
+    var validationResult = await req.Validator.ValidateAsync(req.Dto);
+
+    if (validationResult.IsValid == false)
+    {
+      return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    var refreshResult = await req.UserService.RefreshTokenAsync(req.Dto.UserId, refreshToken);
+
+    if (
+      refreshResult.IsFailed &&
+      refreshResult.Errors.OfType<InvalidRefreshToken>().Any()
+    )
+    {
+      var error = refreshResult.Errors.OfType<InvalidRefreshToken>().First();
+
+      req.Context.Response.SetRefreshTokenCookie(string.Empty, DateTime.UtcNow.AddDays(-1));
+
+      return Results.Problem(
+        title: "Unable to refresh token",
+        detail: error.Message,
+        statusCode: 400
+      );
+    }
+
+    if (
+      refreshResult.IsFailed &&
+      refreshResult.Errors.OfType<RefreshTokenError>().Any()
+    )
+    {
+      var error = refreshResult.Errors.OfType<RefreshTokenError>().First();
+      return Results.Problem(
+        title: "Unable to refresh token",
+        detail: error.Message,
+        statusCode: 500
+      );
+    }
+
+    await req.UserService.RevokeRefreshTokenAsync(req.Dto.UserId, refreshToken);
+    await req.UserService.RemoveAllInvalidRefreshTokensAsync(req.Dto.UserId);
+
+    req.Context.Response.SetRefreshTokenCookie(
+      refreshResult.Value.RefreshToken.Token,
+      refreshResult.Value.RefreshToken.ExpiresAt
+    );
+
+    return Results.Ok(new LoginUserResponse(refreshResult.Value.AccessToken));
   }
 }

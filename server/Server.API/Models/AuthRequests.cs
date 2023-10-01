@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace Server.API.Models;
 
 record LoginDto(string Username, string Password);
@@ -58,5 +61,22 @@ record RegisterRequest(
 
 record LogoutRequest(
   HttpContext Context,
+  [FromServices] IUserService UserService
+);
+
+record RefreshTokenDto(string UserId);
+
+class RefreshTokenDtoValidator : AbstractValidator<RefreshTokenDto>
+{
+  public RefreshTokenDtoValidator()
+  {
+    RuleFor(dto => dto.UserId).NotEmpty().WithMessage("UserId is required.");
+  }
+}
+
+record RefreshTokenRequest(
+  HttpContext Context,
+  [FromBody] RefreshTokenDto Dto,
+  [FromServices] IValidator<RefreshTokenDto> Validator,
   [FromServices] IUserService UserService
 );
