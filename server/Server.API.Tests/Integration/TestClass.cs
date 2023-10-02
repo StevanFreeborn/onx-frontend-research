@@ -1,10 +1,25 @@
 namespace Server.API.Tests.Integration;
 
-public class UnitTestClass
+public class IntegrationTestClass : IClassFixture<TestServerFactory<Program>>
 {
-  [Fact]
-  public void TestMethod()
+  private readonly HttpClient _client;
+
+  public IntegrationTestClass(TestServerFactory<Program> server)
   {
-    true.Should().BeTrue();
+    _client = server.CreateClient();
+  }
+
+  [Fact]
+  public async Task TestMethod()
+  {
+    // register a new user
+    var registerUser = new
+    {
+      email = "test@test.com",
+      password = "@Password1",
+    };
+
+    var registerResponse = await _client.PostAsJsonAsync("/auth/register", registerUser);
+    registerResponse.StatusCode.Should().Be(HttpStatusCode.Created);
   }
 }
