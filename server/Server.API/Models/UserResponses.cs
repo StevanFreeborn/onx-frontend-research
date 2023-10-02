@@ -1,3 +1,5 @@
+namespace Server.API.Models;
+
 /// <summary>
 /// Represents a response to a successful user retrieval
 /// </summary>

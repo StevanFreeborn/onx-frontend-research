@@ -1,3 +1,5 @@
+namespace Server.API.Models;
+
 /// <summary>
 /// Represents the options used to configure CORS
 /// </summary>

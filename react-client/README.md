@@ -6,12 +6,14 @@ This is an example of an Onx react client.
 
 ## Setup
 
+1. `cd` into the `react-client` directory
 1. Install dependencies: `npm install`
 1. Run the dev server: `npm run dev`
 1. Open a browser and navigate to address shown in terminal
 
 ## Testing
 
+1. `cd` into the `react-client` directory
 1. Run the test suite: `npm run test`
 
 ## Dependencies
