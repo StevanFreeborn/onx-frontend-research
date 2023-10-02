@@ -2,6 +2,34 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "install react client deps",
+      "type": "npm",
+      "script": "install",
+      "options": {
+        "cwd": "${workspaceFolder}/react-client"
+      }
+    },
+    {
+      "label": "start react client",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "base": "$vite",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "VITE v",
+            "endsPattern": "Network:"
+          }
+        }
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/react-client"
+      },
+      "dependsOn": ["install react client deps"]
+    },
+    {
       "label": "build",
       "command": "dotnet",
       "type": "process",

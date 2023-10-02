@@ -2,6 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "React Client",
+      "request": "launch",
+      "type": "msedge",
+      "webRoot": "${workspaceFolder}/react-client",
+      "preLaunchTask": "start react client",
+      "url": "http://localhost:5173"
+    },
+    {
       "name": "Server.API",
       "type": "coreclr",
       "request": "launch",
