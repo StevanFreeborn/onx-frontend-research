@@ -2,11 +2,18 @@ import { ChangeEvent, FormEvent, useReducer } from 'react';
 import { BiSolidLock } from 'react-icons/bi';
 import { ImUser } from 'react-icons/im';
 import { Link } from 'react-router-dom';
+import { useAuthClient } from '../../hooks/useAuthClient';
+import { useUserContext } from '../../hooks/useUserContext';
+import { authService } from '../../services/authService';
 import AuthFormErrorsContainer from './AuthFormErrorsContainer';
 import { AuthInput } from './AuthInput';
 import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
+  const { logUserIn } = useUserContext();
+  const client = useAuthClient();
+  const { login } = authService(client);
+
   type FormState = {
     username: string;
     password: string;
@@ -48,7 +55,7 @@ export default function LoginForm() {
 
   const [formState, dispatch] = useReducer(reducer, initialFormState);
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const errors: string[] = [];
@@ -72,7 +79,17 @@ export default function LoginForm() {
       return;
     }
 
-    console.log('Form submitted');
+    const loginResult = await login(formState.username, formState.password);
+
+    if (loginResult.isFailed) {
+      dispatch({
+        type: 'SET_ERROR',
+        payload: { error: loginResult.error.message },
+      });
+      return;
+    }
+
+    logUserIn(loginResult.value.token);
   }
 
   function handleUsernameChange(event: ChangeEvent<HTMLInputElement>) {

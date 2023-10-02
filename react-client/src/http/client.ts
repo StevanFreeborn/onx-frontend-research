@@ -44,7 +44,6 @@ export function client(clientConfig?: {
         ...clientConfig?.authHeader,
       },
       credentials: 'include' as RequestCredentials,
-      cache: 'no-store' as RequestCache,
     };
 
     const request = new Request(url, requestConfig);
@@ -70,6 +69,10 @@ export function client(clientConfig?: {
       ...config,
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        ...config?.headers,
+        'Content-Type': 'application/json',
+      },
     };
     return await request(url, requestConfig);
   }
@@ -87,6 +90,10 @@ export function client(clientConfig?: {
       ...config,
       method: 'PUT',
       body: JSON.stringify(body),
+      headers: {
+        ...config?.headers,
+        'Content-Type': 'application/json',
+      },
     };
     return await request(url, requestConfig);
   }
