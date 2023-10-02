@@ -34,3 +34,4 @@ This is a server that acts as a backend for the Onx clients.
 - [ReportGenerator](https://reportgenerator.io/)
 - [coverlet.collector](https://github.com/coverlet-coverage/coverlet)
 - [coverlet.msbuild](https://www.nuget.org/packages/coverlet.msbuild)
+- [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go)

@@ -8,22 +8,22 @@ class JwtOptions
   /// <summary>
   /// The secret used to sign the JWT
   /// </summary>
-  public string Secret { get; init; } = string.Empty;
+  public string Secret { get; set; } = string.Empty;
 
   /// <summary>
   /// The issuer of the JWT
   /// </summary>
-  public string Issuer { get; init; } = string.Empty;
+  public string Issuer { get; set; } = string.Empty;
 
   /// <summary>
   /// The audience of the JWT
   /// </summary>
-  public string Audience { get; init; } = string.Empty;
+  public string Audience { get; set; } = string.Empty;
 
   /// <summary>
   /// The expiry of the JWT in minutes
   /// </summary>
-  public int ExpiryInMinutes { get; init; }
+  public int ExpiryInMinutes { get; set; }
 }
 
 /// <summary>
