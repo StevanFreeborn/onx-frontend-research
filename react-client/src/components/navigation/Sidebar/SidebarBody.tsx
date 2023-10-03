@@ -7,7 +7,12 @@ export default function SidebarBody({ isCollapsed }: { isCollapsed: boolean }) {
     <nav className={styles.container}>
       <div className={styles.topContainer}>
         <SideBarSearch isCollapsed={isCollapsed} />
-        <div title="Dashboards" className={styles.navItemActive}>
+        <div
+          title="Dashboards"
+          className={
+            isCollapsed ? styles.navItemActiveCollapsed : styles.navItemActive
+          }
+        >
           <div className={styles.navItemIconContainer}>
             <svg
               className={styles.navItemIcon}
@@ -17,10 +22,14 @@ export default function SidebarBody({ isCollapsed }: { isCollapsed: boolean }) {
               <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.4 19,16.5 17.3,18C15.9,16.7 14,16 12,16C10,16 8.2,16.7 6.7,18C5,16.5 4,14.4 4,12A8,8 0 0,1 12,4M14,5.89C13.62,5.9 13.26,6.15 13.1,6.54L11.81,9.77L11.71,10C11,10.13 10.41,10.6 10.14,11.26C9.73,12.29 10.23,13.45 11.26,13.86C12.29,14.27 13.45,13.77 13.86,12.74C14.12,12.08 14,11.32 13.57,10.76L13.67,10.5L14.96,7.29L14.97,7.26C15.17,6.75 14.92,6.17 14.41,5.96C14.28,5.91 14.15,5.89 14,5.89M10,6A1,1 0 0,0 9,7A1,1 0 0,0 10,8A1,1 0 0,0 11,7A1,1 0 0,0 10,6M7,9A1,1 0 0,0 6,10A1,1 0 0,0 7,11A1,1 0 0,0 8,10A1,1 0 0,0 7,9M17,9A1,1 0 0,0 16,10A1,1 0 0,0 17,11A1,1 0 0,0 18,10A1,1 0 0,0 17,9Z" />
             </svg>
           </div>
-          <div className={styles.navLink}>Dashboards</div>
+          {isCollapsed ? null : (
+            <div className={styles.navLink}>Dashboards</div>
+          )}
         </div>
         <Link title="Reports" to="/Report" className={styles.navLink}>
-          <div className={styles.navItem}>
+          <div
+            className={isCollapsed ? styles.navItemCollapsed : styles.navItem}
+          >
             <div className={styles.navItemIconContainer}>
               <svg
                 className={styles.navItemIcon}
@@ -34,7 +43,9 @@ export default function SidebarBody({ isCollapsed }: { isCollapsed: boolean }) {
           </div>
         </Link>
         <Link title="Content" to="/Content" className={styles.navLink}>
-          <div className={styles.navItem}>
+          <div
+            className={isCollapsed ? styles.navItemCollapsed : styles.navItem}
+          >
             <div className={styles.navItemIconContainer}>
               <svg
                 className={styles.navItemIcon}
@@ -44,13 +55,15 @@ export default function SidebarBody({ isCollapsed }: { isCollapsed: boolean }) {
                 <path d="M15,7H20.5L15,1.5V7M8,0H16L22,6V18A2,2 0 0,1 20,20H8C6.89,20 6,19.1 6,18V2A2,2 0 0,1 8,0M4,4V22H20V24H4A2,2 0 0,1 2,22V4H4Z" />
               </svg>
             </div>
-            <div className={styles.navLink}>Content</div>
+            {isCollapsed ? null : <div className={styles.navLink}>Content</div>}
           </div>
         </Link>
       </div>
       <div className={styles.bottomContainer}>
         <Link title="Administration" to="/Admin" className={styles.navLink}>
-          <div className={styles.navItem}>
+          <div
+            className={isCollapsed ? styles.navItemCollapsed : styles.navItem}
+          >
             <div className={styles.gearIconContainer}>
               <svg
                 className={styles.gearIcon}

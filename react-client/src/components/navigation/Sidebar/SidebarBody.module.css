@@ -89,7 +89,9 @@
 }
 
 .navItem,
+.navItemCollapsed,
 .navItemActive,
+.navItemActiveCollapsed,
 .navItemFooter {
   display: flex;
   align-items: center;
@@ -101,12 +103,19 @@
   flex: 1;
 }
 
-.navItemActive {
+.navItemCollapsed,
+.navItemActiveCollapsed {
+  justify-content: center;
+}
+
+.navItemActive,
+.navItemActiveCollapsed {
   border-left-color: #f7941d;
   background-color: #5b627e;
 }
 
 .navItem:hover,
+.navItemCollapsed:hover,
 .navItemFooter:hover {
   background-color: #5b627e;
 }
@@ -123,6 +132,7 @@
 }
 
 .navLink {
+  display: flex;
   color: #ffffff;
   text-decoration: none;
   font-weight: 700;
