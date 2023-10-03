@@ -29,5 +29,11 @@
       "type": "coreclr",
       "request": "attach"
     }
+  ],
+  "compounds": [
+    {
+      "name": "React App",
+      "configurations": ["React Client", "Server.API"]
+    }
   ]
 }

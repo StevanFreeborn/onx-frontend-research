@@ -33,9 +33,12 @@ export type Client = {
   }) => Promise<Response>;
 };
 
-export function client(clientConfig?: {
+type ClientConfig = {
   authHeader?: Record<string, string> | undefined;
-}): Client {
+  unauthorizedResponseHandler?: (originalRequest: Request) => Promise<Response>;
+};
+
+export function client(clientConfig?: ClientConfig): Client {
   async function request(url: string, config?: RequestInit): Promise<Response> {
     const requestConfig = {
       ...config,
@@ -43,11 +46,18 @@ export function client(clientConfig?: {
         ...config?.headers,
         ...clientConfig?.authHeader,
       },
-      credentials: 'include' as RequestCredentials,
+      credentials: clientConfig?.authHeader
+        ? ('include' as RequestCredentials)
+        : ('omit' as RequestCredentials),
     };
 
     const request = new Request(url, requestConfig);
     const response = await fetch(request);
+
+    if (response.status === 401 && clientConfig?.unauthorizedResponseHandler) {
+      return await clientConfig.unauthorizedResponseHandler(request);
+    }
+
     return response;
   }
 

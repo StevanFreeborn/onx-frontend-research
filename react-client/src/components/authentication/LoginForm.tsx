@@ -2,8 +2,8 @@ import { ChangeEvent, FormEvent, useReducer } from 'react';
 import { BiSolidLock } from 'react-icons/bi';
 import { ImUser } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { useAuthClient } from '../../hooks/useAuthClient';
 import { useUserContext } from '../../hooks/useUserContext';
+import { client } from '../../http/client';
 import { authService } from '../../services/authService';
 import AuthFormErrorsContainer from './AuthFormErrorsContainer';
 import { AuthInput } from './AuthInput';
@@ -11,8 +11,7 @@ import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
   const { logUserIn } = useUserContext();
-  const client = useAuthClient();
-  const { login } = authService(client);
+  const { login } = authService(client());
 
   type FormState = {
     username: string;
@@ -29,7 +28,8 @@ export default function LoginForm() {
   type FormActions =
     | { type: 'SET_USERNAME'; payload: { username: string } }
     | { type: 'SET_PASSWORD'; payload: { password: string } }
-    | { type: 'SET_ERROR'; payload: { error: string } };
+    | { type: 'SET_ERROR'; payload: { error: string } }
+    | { type: 'CLEAR_ERRORS' };
 
   const reducer = (state: FormState, action: FormActions) => {
     switch (action.type) {
@@ -48,6 +48,11 @@ export default function LoginForm() {
           ...state,
           errors: [...state.errors, action.payload.error],
         };
+      case 'CLEAR_ERRORS':
+        return {
+          ...state,
+          errors: [],
+        };
       default:
         return state;
     }
@@ -57,6 +62,9 @@ export default function LoginForm() {
 
   async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    dispatch({
+      type: 'CLEAR_ERRORS',
+    });
 
     const errors: string[] = [];
 

@@ -2,6 +2,8 @@ import jwtDecode from 'jwt-decode';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, UserContext } from '../context/UserContext';
+import { client } from '../http/client';
+import { authService } from '../services/authService';
 
 export function useUserContext() {
   const userContext = useContext(UserContext);
@@ -24,5 +26,31 @@ export function useUserContext() {
     dispatchUserAction({ type: 'LOGIN', payload: user });
   }
 
-  return { userState, logUserOut, logUserIn };
+  async function refreshAccessToken(originalRequest: Request) {
+    const { refreshAccessToken } = authService(client());
+    const unauthorizedResponse = new Response(null, { status: 401 });
+
+    if (userState === null) {
+      logUserOut();
+      return unauthorizedResponse;
+    }
+
+    const refreshResult = await refreshAccessToken(userState.id);
+
+    if (refreshResult.isFailed) {
+      logUserOut();
+      return unauthorizedResponse;
+    }
+
+    logUserIn(refreshResult.value.token);
+
+    originalRequest.headers.set(
+      'Authorization',
+      `Bearer ${refreshResult.value.token}`
+    );
+
+    return await fetch(originalRequest);
+  }
+
+  return { userState, logUserOut, logUserIn, refreshAccessToken };
 }

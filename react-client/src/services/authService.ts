@@ -11,7 +11,9 @@ export function authService(client: Client) {
   };
 
   return {
-    async refresh(userId: string): Promise<Result<{ token: string }>> {
+    async refreshAccessToken(
+      userId: string
+    ): Promise<Result<{ token: string }>> {
       const req = {
         url: endpoints.refresh,
         body: {
