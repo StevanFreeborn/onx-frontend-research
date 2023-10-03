@@ -1,0 +1,12 @@
+.sidebar,
+.sidebarCollapsed {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 200px;
+  background-color: #405a90;
+}
+
+.sidebarCollapsed {
+  width: 80px;
+}
