@@ -10,6 +10,7 @@ This is a server that acts as a backend for the Onx clients.
 1. Restore dependencies: `dotnet restore`
 1. Set values for `MongoDbOptions` in `appsettings.json` or `appsettings.Development.json`
 1. Set values for `JwtOptions` in `appsettings.json` or `appsettings.Development.json`
+1. Set values for `CorsOptions` in `appsettings.json` or `appsettings.Development.json`
 1. Run the server: `dotnet run --project ./Server.API/`
 
 ## Testing
