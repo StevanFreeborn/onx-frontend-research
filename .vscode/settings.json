@@ -1,0 +1,13 @@
+{
+  "dotnet.defaultSolution": "server/Server.sln",
+  "cSpell.words": [
+    "Blazor",
+    "Bson",
+    "integrationtestsettings",
+    "kromlau",
+    "Preprocessors",
+    "testid",
+    "Wouter",
+    "Zustand"
+  ]
+}

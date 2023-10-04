@@ -1,0 +1,41 @@
+.container,
+.containerCollapsed {
+  display: flex;
+}
+
+.containerCollapsed {
+  flex-direction: column-reverse;
+}
+
+.footerItem {
+  display: flex;
+  flex: 1 0 auto;
+  border: 1px solid #536a9b;
+  border-bottom: 0;
+  justify-content: center;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.footerIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.footerIcon {
+  width: 30px;
+  fill: #ffffff;
+}
+
+.statusIcon {
+  top: 4px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
+  background-color: #2fcc66;
+  border-radius: 50%;
+}

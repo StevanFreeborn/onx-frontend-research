@@ -1,0 +1,29 @@
+namespace Server.API.Data;
+
+/// <summary>
+/// Context for interacting with MongoDB
+/// </summary>
+class MongoDbContext
+{
+  private const string UsersCollectionName = "users";
+  private readonly MongoDbOptions _options;
+
+  /// <summary>
+  /// The users collection
+  /// </summary>
+  public IMongoCollection<User> Users { get; set; }
+
+  /// <summary>
+  /// Creates a new <see cref="MongoDbContext"/> instance
+  /// </summary>
+  /// <param name="options">A <see cref="IOptions{MongoDbOptions}"/> instance</param>
+  /// <returns>A <see cref="MongoDbContext"/> instance</returns>
+  public MongoDbContext(IOptions<MongoDbOptions> options)
+  {
+    MongoClassMapper.RegisterClassMappings();
+    _options = options.Value;
+    var client = new MongoClient(_options.ConnectionString);
+    var database = client.GetDatabase(_options.DatabaseName);
+    Users = database.GetCollection<User>(UsersCollectionName);
+  }
+}
