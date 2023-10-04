@@ -1,5 +1,4 @@
 import { ChangeEventHandler, ComponentType } from 'react';
-import { IconProps } from '../icons/IconProps';
 import styles from './AuthInput.module.css';
 
 type AuthInputProps = {
@@ -7,7 +6,7 @@ type AuthInputProps = {
   placeholder: string;
   value: string;
   changeHandler?: ChangeEventHandler<HTMLInputElement>;
-  Icon: ComponentType<IconProps>;
+  Icon: ComponentType<any>;
   readOnly?: boolean;
 };
 

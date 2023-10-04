@@ -1,4 +1,9 @@
 import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
+import NotFound from './components/navigation/errors/NotFound';
+import PublicNotFound from './components/navigation/errors/PublicNotFound';
+import ContentPage from './pages/protected/ContentPage';
+import DashboardPage from './pages/protected/DashboardPage';
+import ReportsPage from './pages/protected/ReportsPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import LoginPage from './pages/public/LoginPage';
 import ResetPasswordPage from './pages/public/ResetPasswordPage';
@@ -21,6 +26,10 @@ export const routes: RouteObject[] = [
             path: 'Login',
             element: <LoginPage />,
           },
+          {
+            path: '*',
+            element: <PublicNotFound />,
+          },
         ],
       },
       {
@@ -34,6 +43,10 @@ export const routes: RouteObject[] = [
             path: 'ResetPassword',
             element: <ResetPasswordPage />,
           },
+          {
+            path: '*',
+            element: <PublicNotFound />,
+          },
         ],
       },
     ],
@@ -42,8 +55,24 @@ export const routes: RouteObject[] = [
     element: <ProtectedRoute />,
     children: [
       {
-        path: '/',
-        element: <div>Hello</div>,
+        index: true,
+        element: <Navigate to="/Dashboard" replace />,
+      },
+      {
+        path: 'Dashboard',
+        element: <DashboardPage />,
+      },
+      {
+        path: 'Content',
+        element: <ContentPage />,
+      },
+      {
+        path: 'Report',
+        element: <ReportsPage />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
