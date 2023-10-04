@@ -12,7 +12,6 @@ export default function AnonymousRoute({ children }: { children?: ReactNode }) {
     // if refresh succeeds, then redirect to root
     // if refresh fails, log them out and allow
     // them to continue to the page.
-    console.log('here');
     return <Navigate to="/" replace />;
   }
 

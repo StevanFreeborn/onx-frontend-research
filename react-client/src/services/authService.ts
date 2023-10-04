@@ -57,9 +57,9 @@ export function authService(client: Client) {
     },
     async logout(): Promise<Result<true>> {
       const res = await client.post({ url: endpoints.logout });
-      const body = await res.json();
 
       if (res.ok === false) {
+        const body = await res.json();
         const errMsg = body?.title ?? 'Unable to logout user';
         const error = new Error(errMsg);
         return Result.failure(error);

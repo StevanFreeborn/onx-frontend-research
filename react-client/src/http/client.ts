@@ -46,9 +46,7 @@ export function client(clientConfig?: ClientConfig): Client {
         ...config?.headers,
         ...clientConfig?.authHeader,
       },
-      credentials: clientConfig?.authHeader
-        ? ('include' as RequestCredentials)
-        : ('omit' as RequestCredentials),
+      credentials: 'include' as RequestCredentials,
     };
 
     const request = new Request(url, requestConfig);
