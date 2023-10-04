@@ -3,6 +3,7 @@ const USER_KEY = 'onxAuth';
 
 export type User = {
   id: string;
+  expiresAt: number;
   token: string;
 };
 

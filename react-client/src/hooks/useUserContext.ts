@@ -21,8 +21,8 @@ export function useUserContext() {
   }
 
   function logUserIn(jwtToken: string) {
-    const { sub } = jwtDecode<{ sub: string }>(jwtToken);
-    const user: User = { id: sub, token: jwtToken };
+    const { sub, exp } = jwtDecode<{ sub: string; exp: number }>(jwtToken);
+    const user: User = { id: sub, expiresAt: exp * 1000, token: jwtToken };
     dispatchUserAction({ type: 'LOGIN', payload: user });
   }
 

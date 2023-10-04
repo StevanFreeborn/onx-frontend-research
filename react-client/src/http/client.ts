@@ -35,10 +35,17 @@ export type Client = {
 
 type ClientConfig = {
   authHeader?: Record<string, string> | undefined;
+  includeCredentials?: boolean | undefined;
   unauthorizedResponseHandler?: (originalRequest: Request) => Promise<Response>;
 };
 
-export function client(clientConfig?: ClientConfig): Client {
+export function client(
+  clientConfig: ClientConfig = {
+    authHeader: undefined,
+    includeCredentials: true,
+    unauthorizedResponseHandler: undefined,
+  }
+): Client {
   async function request(url: string, config?: RequestInit): Promise<Response> {
     const requestConfig = {
       ...config,
@@ -46,7 +53,9 @@ export function client(clientConfig?: ClientConfig): Client {
         ...config?.headers,
         ...clientConfig?.authHeader,
       },
-      credentials: 'include' as RequestCredentials,
+      credentials: clientConfig?.includeCredentials
+        ? ('include' as RequestCredentials)
+        : ('omit' as RequestCredentials),
     };
 
     const request = new Request(url, requestConfig);

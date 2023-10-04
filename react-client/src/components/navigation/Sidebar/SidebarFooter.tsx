@@ -11,7 +11,7 @@ export default function SidebarFooter({
   arrowButtonClickHandler: () => void;
 }) {
   const [status, setStatus] = useState(SystemStatus.None);
-  const { getStatus } = statusService(client());
+  const { getStatus } = statusService(client({ includeCredentials: false }));
 
   useEffect(() => {
     const interval = setInterval(async () => {
