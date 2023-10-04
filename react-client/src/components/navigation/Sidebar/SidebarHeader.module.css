@@ -95,18 +95,24 @@
   background-color: #fddfbc;
 }
 
+.profileModal hr {
+  margin: 0.25rem 0;
+}
+
 .profileInfoContainer>div {
   font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
 }
 
-.userName {
+.userName,
+.profileModalUsername {
   color: #ccc;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.currentRole {
+.currentRole,
+.profileModalCurrentRole {
   font-weight: 300;
   font-size: 12px;
   color: #ccc;
@@ -115,4 +121,19 @@
   text-overflow: ellipsis;
   line-height: 18px;
   max-width: 120px;
+}
+
+.profileModalInfo {
+  padding: 0.25rem 1rem;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.profileModalUsername,
+.profileModalCurrentRole {
+  color: #103174;
+}
+
+.profileModalUsername {
+  font-weight: 600;
 }

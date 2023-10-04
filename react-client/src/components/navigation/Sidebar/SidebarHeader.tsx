@@ -88,6 +88,19 @@ export default function SidebarHeader({
           {isProfileModalOpen ? (
             <div className={styles.profileModal}>
               <ul>
+                {isCollapsed ? (
+                  <>
+                    <li className={styles.profileModalInfo}>
+                      <div className={styles.profileModalUsername}>
+                        {username}
+                      </div>
+                      <div className={styles.profileModalCurrentRole}>
+                        {role}
+                      </div>
+                    </li>
+                    <hr />
+                  </>
+                ) : null}
                 <li>
                   <button type="button" onClick={handleProfileClick}>
                     <BiSolidUser size={20} />
@@ -100,7 +113,7 @@ export default function SidebarHeader({
                     <span>Preferences</span>
                   </button>
                 </li>
-                <hr style={{ marginTop: '0.25rem', marginBottom: '0.25rem' }} />
+                <hr />
                 <li>
                   <button type="button" onClick={handleLogoutClick}>
                     <BiLogOutCircle size={20} />
