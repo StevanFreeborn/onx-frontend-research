@@ -7,7 +7,7 @@ export function authService(client: Client) {
     login: `${baseUrl}/auth/login`,
     logout: `${baseUrl}/auth/logout`,
     register: `${baseUrl}/auth/register`,
-    refresh: `${baseUrl}/auth/refresh`,
+    refresh: `${baseUrl}/auth/refresh-token`,
   };
 
   return {
