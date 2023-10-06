@@ -10,7 +10,7 @@ export default function AuthContainer({ children }: { children: ReactNode }) {
           <img src={logo} alt="company logo" />
         </div>
         {children}
-        <div className={styles.copyRightContainer}>
+        <div className={styles.copyrightContainer}>
           <p>Copyright &copy; 2023 Made Up, LLC. All rights reserved.</p>
           <p>U.S. Patent No. 00,000,000</p>
         </div>

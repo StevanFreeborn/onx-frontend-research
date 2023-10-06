@@ -1,8 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AuthContainer from '../components/authentication/AuthContainer.vue';
+</script>
 
 <template>
   <div>
-    <h1>Login View</h1>
+    <AuthContainer> </AuthContainer>
   </div>
 </template>
 
