@@ -8,6 +8,7 @@ import logo from '../../assets/images/logos/testing-demo-logo.svg';
       <div className="logo-container">
         <img :src="logo" alt="company logo" />
       </div>
+      <slot></slot>
       <div class="copyright-container">
         <p>Copyright &copy; 2023 Made Up, LLC. All rights reserved.</p>
         <p>U.S. Patent No. 00,000,000</p>
