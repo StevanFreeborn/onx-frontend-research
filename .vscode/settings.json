@@ -5,6 +5,7 @@
     "Bson",
     "integrationtestsettings",
     "kromlau",
+    "pinia",
     "Preprocessors",
     "testid",
     "Wouter",
