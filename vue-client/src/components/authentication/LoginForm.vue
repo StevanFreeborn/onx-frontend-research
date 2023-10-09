@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { client } from '../../http/client';
+import { authService } from '../../services/authService';
+import { useUserStore } from '../../stores/userStore';
 import LockIcon from '../icons/LockIcon.vue';
 import ProfileIcon from '../icons/ProfileIcon.vue';
 import AuthFormErrorContainer from './AuthFormErrorContainer.vue';
 import AuthInput from './AuthInput.vue';
+
+const { logUserIn } = useUserStore();
+const { login } = authService(client());
 
 type FormState = {
   username: string;
@@ -27,6 +33,22 @@ async function handleFormSubmit() {
   if (!formState.value.password) {
     formState.value.errors.push('Password is required');
   }
+
+  if (formState.value.errors.length) {
+    return;
+  }
+
+  const loginResult = await login(
+    formState.value.username,
+    formState.value.password
+  );
+
+  if (loginResult.isFailed) {
+    formState.value.errors.push(loginResult.error.message);
+    return;
+  }
+
+  logUserIn(loginResult.value.token);
 }
 </script>
 

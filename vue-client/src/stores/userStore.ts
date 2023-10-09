@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const USER_KEY = 'onxAuth';
 
@@ -17,10 +18,12 @@ function getUserFromLocalStorage(): User | null {
 
 export const useUserStore = defineStore('userStore', () => {
   const user = ref<User | null>(getUserFromLocalStorage());
+  const router = useRouter();
 
   function logUserOut() {
     localStorage.removeItem(USER_KEY);
     user.value = null;
+    router.push('/Public/Login');
   }
 
   function logUserIn(jwtToken: string) {
@@ -32,6 +35,7 @@ export const useUserStore = defineStore('userStore', () => {
     };
     localStorage.setItem(USER_KEY, JSON.stringify(loggedInUser));
     user.value = loggedInUser;
+    router.push('/');
   }
 
   return { user, logUserIn, logUserOut };

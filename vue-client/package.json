@@ -11,6 +11,7 @@
   "dependencies": {
     "jwt-decode": "^3.1.2",
     "pinia": "^2.1.6",
+    "vite-plugin-mkcert": "^1.16.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
