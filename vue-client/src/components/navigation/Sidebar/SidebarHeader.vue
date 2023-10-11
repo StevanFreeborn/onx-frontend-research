@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, ref, toRefs } from 'vue';
+import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import defaultProfilePicture from '../../../assets/images/defaults/profile-picture.png';
 import logo from '../../../assets/images/logos/testing-demo-logo-180-47.svg';
 
@@ -29,9 +29,14 @@ onUnmounted(() => {
   document.removeEventListener('click', handleOutsideClick);
 });
 
-const logoContainerClasses = reactive({
-  'logo-container': isCollapsed.value === false,
-  'logo-container-collapsed': isCollapsed.value === true,
+const logoContainerClass = computed(() => {
+  return isCollapsed.value ? 'logo-container-collapsed' : 'logo-container';
+});
+
+const profileContainerClass = computed(() => {
+  return isCollapsed.value
+    ? 'profile-container-collapsed'
+    : 'profile-container';
 });
 
 const username = 'John Doe';
@@ -44,12 +49,12 @@ function handleProfileButtonClick() {
 
 <template>
   <header class="container">
-    <div :class="logoContainerClasses">
+    <div :class="logoContainerClass">
       <RouterLink to="/">
         <img :src="logo" alt="testing-demo-logo" class="logo" />
       </RouterLink>
     </div>
-    <div class="profile-container">
+    <div :class="profileContainerClass">
       <div ref="modalRef" style="position: relative">
         <button
           class="profile-picture-button"
@@ -118,10 +123,15 @@ function handleProfileButtonClick() {
   width: 60px;
 }
 
-.profile-container {
+.profile-container,
+.profile-container-collapsed {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.profile-container-collapsed {
+  justify-content: center;
 }
 
 .profile-picture-button {

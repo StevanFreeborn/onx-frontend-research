@@ -18,10 +18,15 @@
   width: 60px;
 }
 
-.profileContainer {
+.profileContainer,
+.profileContainerCollapsed {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.profileContainerCollapsed {
+  justify-content: center;
 }
 
 .profilePictureButton {

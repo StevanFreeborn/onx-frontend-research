@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import SidebarBody from './SidebarBody.vue';
 import SidebarFooter from './SidebarFooter.vue';
 import SidebarHeader from './SidebarHeader.vue';
 
-const isCollapsed = ref(false);
-const asideClasses = reactive({
-  sidebar: isCollapsed.value === false,
-  'sidebar-collapsed': isCollapsed.value === true,
-});
+const isCollapsed = ref(true);
+const asideClass = computed(() =>
+  isCollapsed.value ? 'sidebar-collapsed' : 'sidebar'
+);
 </script>
 
 <template>
-  <aside :class="asideClasses">
+  <aside :class="asideClass">
     <SidebarHeader :is-collapsed="isCollapsed" />
     <SidebarBody :is-collapsed="isCollapsed" />
     <SidebarFooter :is-collapsed="isCollapsed" />

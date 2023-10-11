@@ -62,7 +62,7 @@
   transform: translateX(250px);
 }
 
-.searchIconContainer,
+.searchIconButton,
 .searchIconContainerCollapsed {
   display: flex;
   align-items: center;
@@ -75,6 +75,14 @@
   border-left: 0;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+}
+
+.searchIconButton {
+  cursor: pointer;
+}
+
+.searchIconButton:hover {
+  background-color: #fddfbc;
 }
 
 .searchIconContainerCollapsed {

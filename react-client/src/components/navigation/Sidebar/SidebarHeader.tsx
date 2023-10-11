@@ -76,7 +76,13 @@ export default function SidebarHeader({
           <img alt="testing-demo-logo" src={logo} className={styles.logo} />
         </Link>
       </div>
-      <div className={styles.profileContainer}>
+      <div
+        className={
+          isCollapsed
+            ? styles.profileContainerCollapsed
+            : styles.profileContainer
+        }
+      >
         <div ref={modalRef} style={{ position: 'relative' }}>
           <button
             onClick={handleProfilePictureClick}
