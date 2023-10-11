@@ -2,6 +2,9 @@
 import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import defaultProfilePicture from '../../../assets/images/defaults/profile-picture.png';
 import logo from '../../../assets/images/logos/testing-demo-logo-180-47.svg';
+import LogoutIcon from '../../icons/LogoutIcon.vue';
+import PreferencesIcon from '../../icons/PreferencesIcon.vue';
+import ProfileIcon from '../../icons/ProfileIcon.vue';
 
 const props = defineProps<{
   isCollapsed: boolean;
@@ -72,20 +75,20 @@ function handleProfileButtonClick() {
             <hr v-if="isCollapsed" />
             <li>
               <button>
-                <!-- TODO: Profile icon -->
+                <ProfileIcon class="modal-icon" />
                 <span>Profile</span>
               </button>
             </li>
             <li>
               <button>
-                <!-- TODO: Preferences icon -->
+                <PreferencesIcon class="modal-icon" />
                 <span>Preferences</span>
               </button>
             </li>
             <hr />
             <li>
               <button>
-                <!-- TODO: Logout icon -->
+                <LogoutIcon class="modal-icon" />
                 <span>Logout</span>
               </button>
             </li>
@@ -245,5 +248,10 @@ function handleProfileButtonClick() {
 
 .profile-modal-username {
   font-weight: 600;
+}
+
+.modal-icon {
+  width: 20px;
+  height: 20px;
 }
 </style>
