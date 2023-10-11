@@ -45,3 +45,11 @@ table {
   line-height: 1.1;
   color: #555;
 }
+
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}

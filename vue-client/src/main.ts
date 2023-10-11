@@ -2,6 +2,7 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import App from './App.vue';
+import ProtectedLayout from './components/layouts/ProtectedLayout.vue';
 import PublicLayout from './components/layouts/PublicLayout.vue';
 import { useUserStore } from './stores/userStore';
 import './style.css';
@@ -30,6 +31,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
+    component: ProtectedLayout,
     redirect: '/Dashboard',
     beforeEnter: () => {
       const { user } = useUserStore();
