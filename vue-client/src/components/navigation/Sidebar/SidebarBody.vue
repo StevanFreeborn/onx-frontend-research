@@ -5,9 +5,9 @@ defineProps<{
 </script>
 
 <template>
-  <div>
-    <div>{{ isCollapsed }}</div>
-  </div>
+  <nav class="container">
+    <div class="top-container"></div>
+  </nav>
 </template>
 
 <style scoped></style>

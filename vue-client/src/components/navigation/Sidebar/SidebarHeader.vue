@@ -67,17 +67,20 @@ function handleProfileButtonClick() {
             <hr v-if="isCollapsed" />
             <li>
               <button>
+                <!-- TODO: Profile icon -->
                 <span>Profile</span>
               </button>
             </li>
             <li>
               <button>
+                <!-- TODO: Preferences icon -->
                 <span>Preferences</span>
               </button>
             </li>
             <hr />
             <li>
               <button>
+                <!-- TODO: Logout icon -->
                 <span>Logout</span>
               </button>
             </li>
