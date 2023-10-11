@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, toRefs } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, toRefs } from 'vue';
 import defaultProfilePicture from '../../../assets/images/defaults/profile-picture.png';
 import logo from '../../../assets/images/logos/testing-demo-logo-180-47.svg';
 
@@ -8,8 +8,27 @@ const props = defineProps<{
 }>();
 
 const { isCollapsed } = toRefs(props);
-
 const isProfileModalOpen = ref(false);
+const modalRef = ref<HTMLDivElement | null>(null);
+
+function handleOutsideClick(event: MouseEvent) {
+  if (
+    isProfileModalOpen.value &&
+    modalRef.value &&
+    modalRef.value.contains(event.target as Node) === false
+  ) {
+    isProfileModalOpen.value = false;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleOutsideClick);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleOutsideClick);
+});
+
 const logoContainerClasses = reactive({
   'logo-container': isCollapsed.value === false,
   'logo-container-collapsed': isCollapsed.value === true,
@@ -17,6 +36,10 @@ const logoContainerClasses = reactive({
 
 const username = 'John Doe';
 const role = 'Administrator';
+
+function handleProfileButtonClick() {
+  isProfileModalOpen.value = !isProfileModalOpen.value;
+}
 </script>
 
 <template>
@@ -27,8 +50,12 @@ const role = 'Administrator';
       </RouterLink>
     </div>
     <div class="profile-container">
-      <div style="position: relative">
-        <button class="profile-picture-button">
+      <div ref="modalRef" style="position: relative">
+        <button
+          class="profile-picture-button"
+          type="button"
+          @click="handleProfileButtonClick"
+        >
           <img alt="default-profile" :src="defaultProfilePicture" />
         </button>
         <div v-if="isProfileModalOpen" class="profile-modal">
