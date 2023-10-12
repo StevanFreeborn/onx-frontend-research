@@ -2,6 +2,8 @@ import jwtDecode from 'jwt-decode';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { client } from '../http/client';
+import { authService } from '../services/authService';
 
 const USER_KEY = 'onxAuth';
 
@@ -38,5 +40,40 @@ export const useUserStore = defineStore('userStore', () => {
     router.push('/');
   }
 
-  return { user, logUserIn, logUserOut };
+  async function refreshAccessToken(originalRequest: Request) {
+    const { refreshAccessToken } = authService(client());
+    const unauthorizedResponse = new Response(null, { status: 401 });
+
+    if (user.value === null) {
+      logUserOut();
+      return unauthorizedResponse;
+    }
+
+    const refreshResult = await refreshAccessToken(user.value.id);
+
+    if (refreshResult.isFailed) {
+      logUserOut();
+      return unauthorizedResponse;
+    }
+
+    logUserIn(refreshResult.value.token);
+
+    originalRequest.headers.set(
+      'Authorization',
+      `Bearer ${refreshResult.value.token}`
+    );
+
+    return await fetch(originalRequest);
+  }
+
+  function useAuthClient() {
+    return client({
+      authHeader: {
+        Authorization: `Bearer ${user.value?.token}`,
+      },
+      unauthorizedResponseHandler: refreshAccessToken,
+    });
+  }
+
+  return { user, logUserIn, logUserOut, useAuthClient };
 });

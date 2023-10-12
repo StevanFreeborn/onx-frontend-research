@@ -8,13 +8,20 @@ const isCollapsed = ref(false);
 const asideClass = computed(() =>
   isCollapsed.value ? 'sidebar-collapsed' : 'sidebar'
 );
+
+const toggleSidebar = () => {
+  isCollapsed.value = !isCollapsed.value;
+};
 </script>
 
 <template>
   <aside :class="asideClass">
     <SidebarHeader :is-collapsed="isCollapsed" />
     <SidebarBody :is-collapsed="isCollapsed" />
-    <SidebarFooter :is-collapsed="isCollapsed" />
+    <SidebarFooter
+      :is-collapsed="isCollapsed"
+      @update:is-collapsed="toggleSidebar"
+    />
   </aside>
 </template>
 

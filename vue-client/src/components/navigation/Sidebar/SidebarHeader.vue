@@ -2,6 +2,8 @@
 import { computed, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import defaultProfilePicture from '../../../assets/images/defaults/profile-picture.png';
 import logo from '../../../assets/images/logos/testing-demo-logo-180-47.svg';
+import { authService } from '../../../services/authService';
+import { useUserStore } from '../../../stores/userStore';
 import LogoutIcon from '../../icons/LogoutIcon.vue';
 import PreferencesIcon from '../../icons/PreferencesIcon.vue';
 import ProfileIcon from '../../icons/ProfileIcon.vue';
@@ -45,8 +47,33 @@ const profileContainerClass = computed(() => {
 const username = 'John Doe';
 const role = 'Administrator';
 
-function handleProfileButtonClick() {
+function handleProfilePictureButtonClick() {
   isProfileModalOpen.value = !isProfileModalOpen.value;
+}
+
+function handleProfileButtonClick() {
+  alert('Should open profile modal');
+  isProfileModalOpen.value = false;
+}
+
+function handlePreferencesClick() {
+  alert('Should open preferences modal');
+  isProfileModalOpen.value = false;
+}
+
+const { logUserOut, useAuthClient } = useUserStore();
+const { logout } = authService(useAuthClient());
+
+async function handleLogoutButtonClick() {
+  const logoutResult = await logout();
+  if (logoutResult.isFailed) {
+    alert('Error logging out');
+    return;
+  } else {
+    logUserOut();
+  }
+
+  isProfileModalOpen.value = false;
 }
 </script>
 
@@ -62,7 +89,7 @@ function handleProfileButtonClick() {
         <button
           class="profile-picture-button"
           type="button"
-          @click="handleProfileButtonClick"
+          @click="handleProfilePictureButtonClick"
         >
           <img alt="default-profile" :src="defaultProfilePicture" />
         </button>
@@ -74,20 +101,20 @@ function handleProfileButtonClick() {
             </li>
             <hr v-if="isCollapsed" />
             <li>
-              <button>
+              <button type="button" @click="handleProfileButtonClick">
                 <ProfileIcon class="modal-icon" />
                 <span>Profile</span>
               </button>
             </li>
             <li>
-              <button>
+              <button type="button" @click="handlePreferencesClick">
                 <PreferencesIcon class="modal-icon" />
                 <span>Preferences</span>
               </button>
             </li>
             <hr />
             <li>
-              <button>
+              <button type="button" @click="handleLogoutButtonClick">
                 <LogoutIcon class="modal-icon" />
                 <span>Logout</span>
               </button>
