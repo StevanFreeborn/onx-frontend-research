@@ -2,11 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Vue Client",
+      "request": "launch",
+      "type": "msedge",
+      "webRoot": "${workspaceFolder}/vue-client",
+      "preLaunchTask": "startvueclient",
+      "url": "https://localhost:5174"
+    },
+    {
       "name": "React Client",
       "request": "launch",
       "type": "msedge",
       "webRoot": "${workspaceFolder}/react-client",
-      "preLaunchTask": "start react client",
+      "preLaunchTask": "startreactclient",
       "url": "https://localhost:5173"
     },
     {
@@ -33,7 +41,11 @@
   "compounds": [
     {
       "name": "React App",
-      "configurations": ["React Client", "Server.API"]
+      "configurations": ["Server.API", "React Client"]
+    },
+    {
+      "name": "Vue App",
+      "configurations": ["Server.API", "Vue Client"]
     }
   ]
 }

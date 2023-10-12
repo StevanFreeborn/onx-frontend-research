@@ -9,5 +9,8 @@ export default mergeConfig(
       environment: 'jsdom',
       setupFiles: 'tests/setup/setup.ts',
     },
+    server: {
+      port: 5173,
+    },
   })
 );
