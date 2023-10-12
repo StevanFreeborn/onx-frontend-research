@@ -65,19 +65,19 @@ Exploring the different frontend frameworks and libraries to see how they work a
     - Which build tools?
       - Options:
         - [Snowpack](https://www.snowpack.dev/)
-        - [Vite](https://vitejs.dev/)
+        - [Vite](https://vitejs.dev/) :heavy_check_mark:
         - [Parcel](https://parceljs.org/)
         - [Webpack](https://webpack.js.org/)
         - [Rollup](https://rollupjs.org/guide/en/)
     - How to manage routing?
       - Options:
-        - [Vue Router](https://router.vuejs.org/)
+        - [Vue Router](https://router.vuejs.org/) :heavy_check_mark:
     - How to style it?
       - Options
         - [Tailwind](https://tailwindcss.com/)
         - [Styled Components](https://styled-components.com/)
         - [CSS Modules](https://github.com/css-modules/css-modules)
-        - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+        - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) :heavy_check_mark:
         - Preprocessors
           - [Sass](https://sass-lang.com/)
           - [Less](http://lesscss.org/)
@@ -85,7 +85,7 @@ Exploring the different frontend frameworks and libraries to see how they work a
     - How to manage state?
       - Options
         - [Vuex](https://vuex.vuejs.org/)
-        - [Pinia](https://pinia.esm.dev/)
+        - [Pinia](https://pinia.esm.dev/) :heavy_check_mark:
 - What to use for testing?
   - want something that supports unit tests and component tests
   - Options
