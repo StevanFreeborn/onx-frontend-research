@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AuthContainer from '../components/authentication/AuthContainer.vue';
-import LoginForm from '../components/authentication/LoginForm.vue';
+import AuthContainer from '../../components/authentication/AuthContainer.vue';
+import LoginForm from '../../components/authentication/LoginForm.vue';
 </script>
 
 <template>

@@ -6,8 +6,10 @@ import ProtectedLayout from './components/layouts/ProtectedLayout.vue';
 import PublicLayout from './components/layouts/PublicLayout.vue';
 import { useUserStore } from './stores/userStore';
 import './style.css';
-import DashboardView from './views/DashboardView.vue';
-import LoginView from './views/LoginView.vue';
+import ContentView from './views/protected/ContentView.vue';
+import DashboardView from './views/protected/DashboardView.vue';
+import ReportView from './views/protected/ReportView.vue';
+import LoginView from './views/public/LoginView.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -46,6 +48,14 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/Dashboard',
         component: DashboardView,
+      },
+      {
+        path: '/Report',
+        component: ReportView,
+      },
+      {
+        path: '/Content',
+        component: ContentView,
       },
     ],
   },

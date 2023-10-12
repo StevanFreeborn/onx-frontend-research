@@ -4,7 +4,7 @@ import SidebarBody from './SidebarBody.vue';
 import SidebarFooter from './SidebarFooter.vue';
 import SidebarHeader from './SidebarHeader.vue';
 
-const isCollapsed = ref(true);
+const isCollapsed = ref(false);
 const asideClass = computed(() =>
   isCollapsed.value ? 'sidebar-collapsed' : 'sidebar'
 );
