@@ -12,7 +12,8 @@
       "testid",
       "Wouter",
       "Zustand"
-    ]
+    ],
+    "git.openRepositoryInParentFolders": "always"
   },
   "launch": {
     "version": "0.2.0",
