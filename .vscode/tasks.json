@@ -2,15 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "install vue client deps",
+      "label": "vueclientdeps",
       "type": "npm",
       "script": "install",
       "options": {
         "cwd": "${workspaceFolder}/vue-client"
-      }
+      },
+      "path": "."
     },
     {
-      "label": "start vue client",
+      "label": "startvueclient",
       "type": "npm",
       "script": "dev",
       "isBackground": true,
@@ -27,18 +28,20 @@
       "options": {
         "cwd": "${workspaceFolder}/vue-client"
       },
-      "dependsOn": ["install vue client deps"]
+      "dependsOn": ["vueclientdeps"],
+      "path": "./"
     },
     {
-      "label": "install react client deps",
+      "label": "reactclientdeps",
       "type": "npm",
       "script": "install",
       "options": {
         "cwd": "${workspaceFolder}/react-client"
-      }
+      },
+      "path": "./."
     },
     {
-      "label": "start react client",
+      "label": "startreactclient",
       "type": "npm",
       "script": "dev",
       "isBackground": true,
@@ -55,7 +58,8 @@
       "options": {
         "cwd": "${workspaceFolder}/react-client"
       },
-      "dependsOn": ["install react client deps"]
+      "dependsOn": ["reactclientdeps"],
+      "path": "././"
     },
     {
       "label": "build",

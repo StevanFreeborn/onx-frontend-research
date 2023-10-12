@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "msedge",
       "webRoot": "${workspaceFolder}/vue-client",
-      "preLaunchTask": "start vue client",
+      "preLaunchTask": "startvueclient",
       "url": "https://localhost:5174"
     },
     {
@@ -14,7 +14,7 @@
       "request": "launch",
       "type": "msedge",
       "webRoot": "${workspaceFolder}/react-client",
-      "preLaunchTask": "start react client",
+      "preLaunchTask": "startreactclient",
       "url": "https://localhost:5173"
     },
     {
