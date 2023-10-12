@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Vue Client",
+      "request": "launch",
+      "type": "msedge",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "startvueclient",
+      "url": "https://localhost:5174"
+    }
+  ]
+}

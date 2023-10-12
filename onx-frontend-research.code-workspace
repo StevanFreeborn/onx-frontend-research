@@ -1,0 +1,52 @@
+{
+  "settings": {
+    "dotnet.defaultSolution": "server/Server.sln",
+    "cSpell.words": [
+      "Blazor",
+      "Bson",
+      "devkit",
+      "integrationtestsettings",
+      "kromlau",
+      "pinia",
+      "Preprocessors",
+      "testid",
+      "Wouter",
+      "Zustand"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [],
+    "compounds": [
+      {
+        "name": "React App",
+        "configurations": ["Server.API", "React Client"]
+      },
+      {
+        "name": "Vue App",
+        "configurations": ["Server.API", "Vue Client"]
+      },
+      {
+        "name": "Blazor App",
+        "configurations": ["Server.API", "Blazor Client"]
+      }
+    ]
+  },
+  "folders": [
+    {
+      "path": "./angular-client"
+    },
+    {
+      "path": "./blazor-client"
+    },
+    {
+      "path": "./react-client"
+    },
+    {
+      "path": "./server"
+    },
+    {
+      "path": "./vue-client"
+    }
+  ]
+}

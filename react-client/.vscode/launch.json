@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "React Client",
+      "request": "launch",
+      "type": "msedge",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "startreactclient",
+      "url": "https://localhost:5173"
+    }
+  ]
+}
