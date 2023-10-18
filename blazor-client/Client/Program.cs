@@ -4,7 +4,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.ConfigureOptions<ServerApiOptionsSetup>();
 
-builder.Services.AddAuthServiceClient();
+builder.Services.AddAuthService();
 
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 builder.Services.AddAuthorizationCore();
